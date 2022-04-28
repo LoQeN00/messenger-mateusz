@@ -8,12 +8,12 @@ import http from 'http'
 import { ApolloClient, InMemoryCache } from '@apollo/client'
 
 const httpLink = new HttpLink({
-  uri: 'http://localhost:4000/graphql',
+  uri: 'https://messapi.herokuapp.com/graphql',
 })
 
 const wsLink = new GraphQLWsLink(
   createClient({
-    url: 'ws://localhost:4000/graphql',
+    url: 'wss://messapi.herokuapp.com/graphql',
     webSocketImpl: w3cwebsocket,
   })
 )

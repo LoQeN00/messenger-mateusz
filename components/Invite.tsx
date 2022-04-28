@@ -1,12 +1,13 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import Image from 'next/image'
 import { useMutation, gql } from '@apollo/client'
 
 type Props = {
   invite: any
+  setInvites: any
 }
 
-const Invite = ({ invite }: Props) => {
+const Invite = ({ invite, setInvites }: Props) => {
   const DENY_INVITE_MUTATION = gql`
     mutation Mutation($denyInviteId: String) {
       denyInvite(id: $denyInviteId) {
@@ -30,6 +31,31 @@ const Invite = ({ invite }: Props) => {
     ACCEPT_INVITE_MUTATION
   )
 
+  const handleAcceptInvite = (id: string) => {
+    acceptInvite({ variables: { acceptInviteId: id } })
+
+    setInvites((prevState: any) =>
+      prevState.filter((inviteElement: any) => inviteElement.id !== invite.id)
+    )
+
+    acceptRef.current?.setAttribute('disabled', '')
+    denyRef.current?.setAttribute('disabled', '')
+  }
+
+  const handleDenyInvite = (id: string) => {
+    denyInvite({ variables: { denyInviteId: id } })
+
+    setInvites((prevState: any) =>
+      prevState.filter((inviteElement: any) => inviteElement.id !== invite.id)
+    )
+
+    acceptRef.current?.setAttribute('disabled', '')
+    denyRef.current?.setAttribute('disabled', '')
+  }
+
+  const acceptRef = useRef<HTMLButtonElement>(null)
+  const denyRef = useRef<HTMLButtonElement>(null)
+
   return (
     <div>
       <div className="flex items-center space-x-5">
@@ -45,15 +71,15 @@ const Invite = ({ invite }: Props) => {
       <div className="my-5 flex space-x-5">
         <button
           className="rounded-lg border border-green-500 px-4 py-2 text-white"
-          onClick={() =>
-            acceptInvite({ variables: { acceptInviteId: invite.id } })
-          }
+          onClick={() => handleAcceptInvite(invite.id)}
+          ref={acceptRef}
         >
           Akceptuj
         </button>
         <button
           className="rounded-lg border border-red-500 px-4 py-2 text-white"
-          onClick={() => denyInvite({ variables: { denyInviteId: invite.id } })}
+          onClick={() => handleDenyInvite(invite.id)}
+          ref={denyRef}
         >
           Odrzuć
         </button>

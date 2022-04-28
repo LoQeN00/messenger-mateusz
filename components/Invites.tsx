@@ -64,7 +64,7 @@ const Invites = (props: Props) => {
         Twoje zaproszenia do znajomych:
       </h1>
       {invites.map((invite: any) => (
-        <Invite key={invite.id} invite={invite} />
+        <Invite key={invite.id} invite={invite} setInvites={setInvites} />
       ))}
       <AddFriend />
     </div>

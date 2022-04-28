@@ -90,7 +90,7 @@ const Chat = (props: Props) => {
   if (!contactData) return null
 
   return (
-    <div className="relative h-[90vh] w-[80%] p-5">
+    <div className="relative h-[90vh] w-[100%] p-5">
       <div className="mb-20 flex items-center space-x-5">
         <div className="min-w-12 min-h-12 relative h-12 w-12">
           <Image

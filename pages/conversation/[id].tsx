@@ -8,15 +8,7 @@ import { getSession } from 'next-auth/react'
 type Props = {}
 
 const ConversationPage = (props: Props) => {
-  return (
-    <div className="flex min-h-[100vh] flex-col bg-[#242526]">
-      <Navbar />
-      <div className="flex overflow-hidden">
-        <Contacts />
-        <Chat />
-      </div>
-    </div>
-  )
+  return <Chat />
 }
 
 export default ConversationPage

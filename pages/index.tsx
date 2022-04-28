@@ -7,16 +7,10 @@ import FriendCode from '../components/FriendCode'
 
 const Home: NextPage = () => {
   return (
-    <div className="flex min-h-[100vh] flex-col bg-[#242526]">
-      <Navbar />
-      <div className="flex flex-1 overflow-hidden">
-        <Contacts />
-        <div className=" w-[80%]">
-          <Invites />
-          <FriendCode />
-        </div>
-      </div>
-    </div>
+    <>
+      <Invites />
+      <FriendCode />
+    </>
   )
 }
 

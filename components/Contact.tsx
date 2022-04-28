@@ -3,24 +3,45 @@ import { Conversation } from '../types/typings'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useSession } from 'next-auth/react'
+import { useQuery, gql } from '@apollo/client'
 
 type Props = {
-  conversation: Conversation
+  conversation: any
 }
 
 const Contact = ({ conversation }: Props) => {
   const { data: session } = useSession()
 
-  const contactData = conversation.groupMember.filter(
-    (member) => member.userId != session?.user.userId
+  const GET_CONVERSATION = gql`
+    query GetConversation($conversationId: String) {
+      getConversation(conversationId: $conversationId) {
+        groupMember {
+          userId
+          conversationId
+          id
+          user {
+            name
+            image
+          }
+        }
+      }
+    }
+  `
+
+  const { loading, error, data } = useQuery(GET_CONVERSATION, {
+    variables: {
+      conversationId: conversation.conversationId,
+    },
+  })
+
+  const contactData = data?.getConversation.groupMember.filter(
+    (member: any) => member.userId != session?.user.userId
   )
 
-  console.log(contactData)
-
-  if (!contactData.length) return null
+  if (!contactData) return null
 
   return (
-    <Link href={`/conversation/${conversation.id}`}>
+    <Link href={`/conversation/${conversation.conversationId}`}>
       <div className="ease flex cursor-pointer items-center space-x-7 rounded-lg p-4 transition-all hover:bg-[#3a3b3c]">
         <div className="min-w-12 min-h-12 relative h-12 w-12">
           <Image
